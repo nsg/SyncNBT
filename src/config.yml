@@ -1,0 +1,7 @@
+Database:
+  MySQL:
+    HostName: localhost
+    Port: 3306
+    DatabaseName: name
+    Username: root
+    Password: root
