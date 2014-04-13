@@ -64,14 +64,12 @@ public class Listeners implements Listener {
   
   @SuppressWarnings("deprecation")
   private void walkInventory(PlayerInventory inventory, Player player, ItemStack is, int slot) {
-    System.out.println("Process slot: " + slot);
     
     int amount = is.getAmount();
     short durability = is.getDurability();
     int type = is.getTypeId();
     byte data = is.getData().getData();
     
-    System.out.println("Save: A:" + amount + " D:" + durability + " T:" + type + " D:" + data);
     plugin.db.saveItem(slot, player.getName(), amount, durability, type, data);
     
     NBTContainerItem con = null;
@@ -149,8 +147,6 @@ public class Listeners implements Listener {
         int type = res.getInt("type");
         byte data = res.getByte("data");
         int slot = res.getInt("slot");
-        
-        System.out.println("Restore: A:" + amount + " D:" + durability + " T:" + type + " D:" + data);
         
         ItemStack item = new ItemStack(type, amount, durability);
         item.setData(new MaterialData(data));

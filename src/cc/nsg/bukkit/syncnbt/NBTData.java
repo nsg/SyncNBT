@@ -108,7 +108,6 @@ public class NBTData {
     
     NBTTagCompound compound = new NBTTagCompound();
     
-    System.out.println("This is item " + item_pos + " and my parent is " + parent_id);
     String sql_nbt = "SELECT * FROM syncnbt_nbtdata WHERE inventory_pos = ? AND parent_id = ?";
     PreparedStatement statement = connection.prepareStatement(sql_nbt, Statement.RETURN_GENERATED_KEYS);
     statement.setInt(1, item_pos);
