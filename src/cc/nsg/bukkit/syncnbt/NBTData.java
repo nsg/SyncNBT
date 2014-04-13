@@ -118,11 +118,8 @@ public class NBTData {
       String name = res.getString("name");
       String type = res.getString("type");
       
-      System.out.println("Found: " + type + "; Name: " + name);
-      
       switch (type) {
       case "COMPOUND": // java7
-        System.out.println("c: " + name);
         NBTTagCompound rc = restoreExtraNBTTags(item_pos, id);
         compound.set(name, rc);
         break;
