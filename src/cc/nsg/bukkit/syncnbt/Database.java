@@ -121,7 +121,7 @@ public class Database {
       log.info("No valid connection found, reconnect to MySQL server.");
       
       Class.forName("com.mysql.jdbc.Driver");
-      connection = DriverManager.getConnection("jdbc:mysql://" + hostname + ":" + port + "/" + database, user, password);
+      connection = DriverManager.getConnection("jdbc:mysql://" + hostname + ":" + port + "/" + database + "?autoReconnect=true", user, password);
       return true;
     } catch (SQLException e) {
       log.info(e.getMessage());
