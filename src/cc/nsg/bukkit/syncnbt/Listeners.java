@@ -134,8 +134,6 @@ public class Listeners implements Listener {
     PlayerInventory inventory = player.getInventory();
     Connection connection = plugin.db.getConnection();
 
-    inventory.clear();
-
     try {
       String sql = "SELECT * FROM syncnbt_items WHERE player_name = ?";
       PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
