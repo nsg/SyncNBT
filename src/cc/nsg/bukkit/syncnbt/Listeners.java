@@ -29,6 +29,8 @@ public class Listeners implements Listener {
 
   @EventHandler
   public void playerLogout(PlayerQuitEvent event) {
+    plugin.db.openConnection();
+
     Player player = event.getPlayer();
     plugin.db.lockPlayer(player.getName());
 
@@ -64,7 +66,8 @@ public class Listeners implements Listener {
   
   @SuppressWarnings("deprecation")
   private void walkInventory(PlayerInventory inventory, Player player, ItemStack is, int slot) {
-    
+    plugin.db.openConnection();
+
     int amount = is.getAmount();
     short durability = is.getDurability();
     int type = is.getTypeId();
@@ -131,6 +134,8 @@ public class Listeners implements Listener {
   
   @SuppressWarnings("deprecation")
   private void restoreInventory(Player player) {  
+    plugin.db.openConnection();
+
     PlayerInventory inventory = player.getInventory();
     Connection connection = plugin.db.getConnection();
 

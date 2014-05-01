@@ -31,7 +31,7 @@ public class SyncNBT extends JavaPlugin {
     }
     
     db = new Database(this);
-    nbt = new NBTData(db.getConnection());
+    nbt = new NBTData(db);
     
     getServer().getPluginManager().registerEvents(new Listeners(this), this);    
     

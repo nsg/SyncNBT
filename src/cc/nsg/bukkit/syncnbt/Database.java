@@ -52,6 +52,8 @@ public class Database {
   }
   
   public void saveItem(int slot, String player, int amount, short durability, int type, byte data) {
+    openConnection();
+
     try {
       String sql = "INSERT INTO syncnbt_items (amount,durability,type,data,player_name,slot) VALUES(?,?,?,?,?,?)";
       PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -68,12 +70,8 @@ public class Database {
   }
   
   private void playerState(String player, int state) {
-    
-    if (connection == null) {
-      log.severe("Error, no connection found!");
-      return;
-    }
-    
+    openConnection();
+
     String sql = "INSERT INTO syncnbt_locks (player_name, state) values(?, ?) on duplicate key update state = ?";
     try {
       PreparedStatement statement = connection.prepareStatement(sql);
@@ -87,6 +85,8 @@ public class Database {
   }
 
   public boolean isPlayerLocked(String player) {
+    openConnection();
+
     String sql = "SELECT * FROM syncnbt_locks WHERE player_name = ?";
     try {
       PreparedStatement statement = connection.prepareStatement(sql);
@@ -110,7 +110,7 @@ public class Database {
     playerState(player, 0);
   }
 
-  private boolean openConnection() {
+  public boolean openConnection() {
     
     try {
       

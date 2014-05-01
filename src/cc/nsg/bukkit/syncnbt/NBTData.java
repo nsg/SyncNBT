@@ -24,9 +24,11 @@ import org.bukkit.entity.Player;
 public class NBTData {
   
   Connection connection = null;
+  Database db = null;
   
-  public NBTData(Connection connection) {
-    this.connection = connection;
+  public NBTData(Database db) {
+    this.connection = db.getConnection();
+    this.db = db;
   }
   
   /**
@@ -38,6 +40,8 @@ public class NBTData {
    * @throws SQLException
    */
   public void saveExtraNBTData(NBTTagCompound compound, int item_pos, int parent_id, Player player) throws SQLException {
+    db.openConnection();
+
     for (NBTBase nbtBase : compound) {
       String sql = "INSERT INTO syncnbt_nbtdata (inventory_pos, parent_id, name, type, data, player_name) VALUES(?,?,?,?,?,?)";
       PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -121,6 +125,7 @@ public class NBTData {
    * @throws SQLException
    */
   public NBTTagCompound restoreExtraNBTTags(int item_pos, int parent_id) throws SQLException {
+    db.openConnection();
     
     NBTTagCompound compound = new NBTTagCompound();
     
