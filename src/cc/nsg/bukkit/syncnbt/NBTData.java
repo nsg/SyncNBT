@@ -124,15 +124,16 @@ public class NBTData {
    * @return
    * @throws SQLException
    */
-  public NBTTagCompound restoreExtraNBTTags(int item_pos, int parent_id) throws SQLException {
+  public NBTTagCompound restoreExtraNBTTags(int item_pos, int parent_id, Player player) throws SQLException {
     db.openConnection();
     
     NBTTagCompound compound = new NBTTagCompound();
     
-    String sql_nbt = "SELECT * FROM syncnbt_nbtdata WHERE inventory_pos = ? AND parent_id = ?";
+    String sql_nbt = "SELECT * FROM syncnbt_nbtdata WHERE inventory_pos = ? AND parent_id = ? AND player_name = ?";
     PreparedStatement statement = connection.prepareStatement(sql_nbt, Statement.RETURN_GENERATED_KEYS);
     statement.setInt(1, item_pos);
     statement.setInt(2, parent_id);
+    statement.setString(3, player.getName());
     ResultSet res = statement.executeQuery();
     while (res.next()) {
       int id = res.getInt("id");
@@ -141,7 +142,7 @@ public class NBTData {
       
       switch (type) {
       case "COMPOUND": // java7
-        NBTTagCompound rc = restoreExtraNBTTags(item_pos, id);
+        NBTTagCompound rc = restoreExtraNBTTags(item_pos, id, player);
         compound.set(name, rc);
         break;
 
