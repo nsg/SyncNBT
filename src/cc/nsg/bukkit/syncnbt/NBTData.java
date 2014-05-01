@@ -8,10 +8,12 @@ import java.sql.Statement;
 
 import me.dpohvar.powernbt.nbt.NBTBase;
 import me.dpohvar.powernbt.nbt.NBTTagByte;
+import me.dpohvar.powernbt.nbt.NBTTagByteArray;
 import me.dpohvar.powernbt.nbt.NBTTagCompound;
 import me.dpohvar.powernbt.nbt.NBTTagDouble;
 import me.dpohvar.powernbt.nbt.NBTTagFloat;
 import me.dpohvar.powernbt.nbt.NBTTagInt;
+import me.dpohvar.powernbt.nbt.NBTTagIntArray;
 import me.dpohvar.powernbt.nbt.NBTTagList;
 import me.dpohvar.powernbt.nbt.NBTTagLong;
 import me.dpohvar.powernbt.nbt.NBTTagShort;
@@ -81,6 +83,15 @@ public class NBTData {
       case "STRING":
         statement.setString(5, new String(nbtBase.toString()));
         break;        
+
+      case "BYTEARRAY":
+        statement.setBytes(5, ((NBTTagByteArray)nbtBase).toBytes());
+        break;
+
+      case "INTARRAY":
+        statement.setString(5, ((NBTTagIntArray)nbtBase).toString());
+        System.out.println("INTARRAY: " + ((NBTTagIntArray)nbtBase).toString() + " saved as a string!");
+        break;
         
       default:
         statement.setString(5, "");
@@ -184,6 +195,20 @@ public class NBTData {
         s.set(data_str);
         compound.set(name, s);
         break;          
+
+/*      case "INTARRAY":
+        int[] data_inta = res.getBytes("data");
+        NBTTagIntArray ia = new NBTTagIntArray();
+        s.set(data_str);
+        compound.set(name, s);
+        break;*/
+
+      case "BYTEARRAY":
+        byte[] data_bytea = res.getBytes("data");
+        NBTTagByteArray ba = new NBTTagByteArray();
+        ba.set(data_bytea);
+        compound.set(name, ba);
+        break;
         
       default:
         System.out.println("Error: " + type + " not defined!");
