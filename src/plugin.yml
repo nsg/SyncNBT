@@ -1,6 +1,6 @@
 name: SyncNBT
 main: cc.nsg.bukkit.syncnbt.SyncNBT
-version: 0.1
+version: 0.2
 author: Stefan Berggren (nsg or nsgb)
 description: Sync the players NDB data between servers.
 depend: [Vault, PowerNBT]

@@ -1,0 +1,8 @@
+0.2
+  * Check the connection to MySQL before we try to use it
+  * Do not clear the inventory before a import (we still clear is after a successful export).
+  * Implement FLOAT
+  * Experimental implementation of BYTE- and INTARRAY.
+  * No more "random enchantments" or "odd named items".
+0.1
+  * Initial release for testing
