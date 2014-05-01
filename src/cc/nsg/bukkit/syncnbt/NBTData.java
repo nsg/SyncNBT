@@ -10,6 +10,7 @@ import me.dpohvar.powernbt.nbt.NBTBase;
 import me.dpohvar.powernbt.nbt.NBTTagByte;
 import me.dpohvar.powernbt.nbt.NBTTagCompound;
 import me.dpohvar.powernbt.nbt.NBTTagDouble;
+import me.dpohvar.powernbt.nbt.NBTTagFloat;
 import me.dpohvar.powernbt.nbt.NBTTagInt;
 import me.dpohvar.powernbt.nbt.NBTTagList;
 import me.dpohvar.powernbt.nbt.NBTTagLong;
@@ -72,6 +73,10 @@ public class NBTData {
       case "LONG":
         statement.setLong(5, new Long(nbtBase.toString()));
         break;        
+
+      case "FLOAT":
+        statement.setFloat(5, new Float(nbtBase.toString()));
+        break;
         
       case "STRING":
         statement.setString(5, new String(nbtBase.toString()));
@@ -165,6 +170,13 @@ public class NBTData {
         l.set(data_long);
         compound.set(name, l);
         break;        
+
+      case "FLOAT":
+        float data_float = res.getFloat("data");
+        NBTTagFloat f = new NBTTagFloat();
+        f.set(data_float);
+        compound.set(name, f);
+        break;
         
       case "STRING":
         String data_str = res.getString("data");
