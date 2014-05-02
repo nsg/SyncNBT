@@ -189,7 +189,9 @@ public class Listeners implements Listener {
         }
         
         NBTTagCompound rc = plugin.nbt.restoreExtraNBTTags(slot, -1, player);
-        con.setTag(rc);
+        if (rc.size() > 0) {
+          con.setTag(rc);
+        }
         
       }
     } catch (SQLException e) {
