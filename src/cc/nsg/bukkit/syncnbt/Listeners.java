@@ -9,6 +9,7 @@ import java.sql.Statement;
 import me.dpohvar.powernbt.nbt.NBTContainerItem;
 import me.dpohvar.powernbt.nbt.NBTTagCompound;
 
+import org.bukkit.Material;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -46,18 +47,22 @@ public class Listeners implements Listener {
     ItemStack is = player.getInventory().getHelmet();
     if (is != null) {;
       walkInventory(inventory, player, is, -100);
+      is.setType(Material.AIR); // clear helmet
     }
     is = player.getInventory().getChestplate();
     if (is != null) {;
       walkInventory(inventory, player, is, -101);
+      is.setType(Material.AIR); // clear chest
     }
     is = player.getInventory().getLeggings();
     if (is != null) {;
       walkInventory(inventory, player, is, -102);
+      is.setType(Material.AIR); // clear legs
     }
     is = player.getInventory().getBoots();
     if (is != null) {;
       walkInventory(inventory, player, is, -103);
+      is.setType(Material.AIR); // clear boots
     }
     
     inventory.clear();
