@@ -1,3 +1,7 @@
+0.2c
+  * Do not store empty tags (solves stacking problems)
+0.2b
+  * Clear armor slots (prevent dupes)
 0.2
   * Check the connection to MySQL before we try to use it
   * Do not clear the inventory before a import (we still clear is after a successful export).
