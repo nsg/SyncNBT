@@ -6,7 +6,7 @@
 
     <groupId>cc.nsg.bukkit</groupId>
     <artifactId>SyncNBT</artifactId>
-    <version>0.2c-SNAPSHOT</version>
+    <version>0.3-SNAPSHOT</version>
 
     <repositories>
         <repository>
@@ -51,7 +51,7 @@
 		<dependency>
 			<groupId>com.comphenix.protocol</groupId>
 			<artifactId>ProtocolLib</artifactId>
-			<version>3.3.1</version>
+			<version>3.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>me.dpohvar.powernbt</groupId>
