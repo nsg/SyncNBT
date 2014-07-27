@@ -69,6 +69,39 @@ public class Database {
     }
   }
   
+  public void setSetting(String player, int state) {
+    openConnection();
+
+    String sql = "INSERT INTO syncnbt_settings (player_name, state) values(?, ?) on duplicate key update state = ?";
+    try {
+      PreparedStatement statement = connection.prepareStatement(sql);
+      statement.setString(1, player);
+      statement.setInt(2, state);
+      statement.setInt(3, state);
+      statement.executeUpdate();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public int getSetting(String player) {
+    openConnection();
+
+    String sql = "SELECT * FROM syncnbt_settings WHERE player_name = ?";
+    try {
+      PreparedStatement statement = connection.prepareStatement(sql);
+      statement.setString(1, player);
+      ResultSet res = statement.executeQuery();
+      if (res.next()) {
+        return res.getInt("state");
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    return 0;
+  }
+
   private void playerState(String player, int state) {
     openConnection();
 
@@ -155,7 +188,13 @@ public class Database {
           ");";
       statement = connection.prepareStatement(sql);
       statement.executeUpdate();
-      
+
+      sql = "CREATE TABLE IF NOT EXISTS syncnbt_settings (" +
+              "player_name VARCHAR(255) PRIMARY KEY, state SMALLINT" +
+              ");";
+          statement = connection.prepareStatement(sql);
+          statement.executeUpdate();
+
       return true;
     } catch (SQLException e) {
       log.info(e.getMessage());
