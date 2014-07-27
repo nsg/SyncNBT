@@ -20,6 +20,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.material.MaterialData;
 
+/**
+ * This class listens for events from Bukkit.
+ * @author Stefan Berggren
+ *
+ */
+
 public class Listeners implements Listener {
   
   SyncNBT plugin = null;
@@ -28,6 +34,11 @@ public class Listeners implements Listener {
     this.plugin = plugin;
   }
 
+  /**
+   * A player leaves the server, note that this event is only triggered with
+   * a clean normal quit. 
+   */
+  
   @EventHandler
   public void playerLogout(PlayerQuitEvent event) {
     plugin.db.openConnection();

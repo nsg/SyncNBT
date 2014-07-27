@@ -8,20 +8,21 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.comphenix.protocol.*;
 
 /**
- * This is the main class for the plugin.
- * @author nsg
+ * This is the main class that extends JavaPlugin.
+ * @author Stefan Berggren
  *
  */
 
 public class SyncNBT extends JavaPlugin {
 
-  Logger log = null;
-  Database db = null;
-  NBTData nbt = null;
+  private Logger log = null;
   
-  @SuppressWarnings("unused")
-  private ProtocolManager protocolManager;
-
+  protected Database db = null;
+  protected NBTData nbt = null;
+  
+  /**
+   * onEnable is triggered when the plugin is successfully loaded.
+   */
   @Override
   public void onEnable() {
     super.onEnable();
@@ -31,19 +32,28 @@ public class SyncNBT extends JavaPlugin {
     
     saveDefaultConfig();
 
+    // PowerNBT is used for legacy mode 1
     if (getServer().getPluginManager().getPlugin("PowerNBT") == null) {
       log.severe("Error, unable to find the plugin PowerNBT, I will disable my self now");
       return;
     }
-    
+
+    // Open a connection to the database and setup tables
     db = new Database(this);
-    nbt = new NBTData(db);
-    protocolManager = ProtocolLibrary.getProtocolManager();
+    
+    // Load plugins that I depend on
+    nbt = new NBTData(db); // PowerNBT
+    ProtocolLibrary.getProtocolManager(); // ProtocolLib
     
     getServer().getPluginManager().registerEvents(new Listeners(this), this);
     
   }
   
+  /**
+   * This method listens for commands typed by the player.
+   * /itemsync status
+   * /itemsync mode [int]
+   */
   @Override
   public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 	if (cmd.getName().equalsIgnoreCase("itemsync")) {
@@ -63,6 +73,9 @@ public class SyncNBT extends JavaPlugin {
     return false;
   }
 
+  /**
+   * Plugin cleanup when the plugin is unloaded, server is most likely shutting down.
+   */
   @Override
   public void onDisable() {
     super.onDisable();
