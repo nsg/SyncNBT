@@ -42,7 +42,7 @@ public class SyncNBT extends JavaPlugin {
     db = new Database(this);
     
     // Load plugins that I depend on
-    nbt = new NBTData(db, nbt); // PowerNBT
+    nbt = new NBTData(db); // PowerNBT
     ProtocolLibrary.getProtocolManager(); // ProtocolLib
     
     getServer().getPluginManager().registerEvents(new Listeners(this), this);

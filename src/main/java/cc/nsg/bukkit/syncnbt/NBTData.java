@@ -35,12 +35,10 @@ public class NBTData {
   
   Connection connection = null;
   Database db = null;
-  NBTData nbt = null;
   
-  public NBTData(Database db, NBTData nbt) {
+  public NBTData(Database db) {
     this.connection = db.getConnection();
     this.db = db;
-    this.nbt = nbt;
   }
   
   /**
@@ -277,7 +275,7 @@ public class NBTData {
     if (compound == null) return;
 
     try {
-      nbt.saveExtraNBTData(compound, slot, -1, player);
+      saveExtraNBTData(compound, slot, -1, player);
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -334,7 +332,7 @@ public class NBTData {
           break;
         }
         
-        NBTTagCompound rc = nbt.restoreExtraNBTTags(slot, -1, player);
+        NBTTagCompound rc = restoreExtraNBTTags(slot, -1, player);
         if (rc.size() > 0) {
           con.setTag(rc);
         }
