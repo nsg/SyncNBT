@@ -36,7 +36,7 @@ public class Listeners implements Listener {
 
     if (plugin.db.getSetting(player.getName()) == 2) {
       plugin.getLogger().info("Player " + player.getName() + " logout, saving data with mode 2");
-      new PlayerTicker(plugin, player.getName()).startPlayerTicker();
+      new PlayerTicker(plugin, player.getName()).stopPlayerTicker();
     } else {
       plugin.getLogger().info("Player " + player.getName() + " logout, saving data with mode 1");
       plugin.nbt.saveInventory(player);
