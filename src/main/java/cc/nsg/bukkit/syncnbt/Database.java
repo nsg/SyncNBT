@@ -68,7 +68,22 @@ public class Database {
       e1.printStackTrace();
     }
   }
-  
+
+  public void saveJSONData(String player, String JSONData) {
+    openConnection();
+
+    try {
+      String sql = "INSERT INTO syncnbt_json (player, json_data) VALUES(?,?) ON DUPLICATE KEY UPDATE json_data = ?";
+      PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+      statement.setString(1, player);
+      statement.setString(2, JSONData);
+      statement.setString(3, JSONData);
+      statement.execute();
+    } catch (SQLException e1) {
+      e1.printStackTrace();
+    }
+  }
+
   public void setSetting(String player, int state) {
     openConnection();
 
@@ -169,6 +184,8 @@ public class Database {
   private boolean createTables() {
     try {
       
+      /* used by PowerNBT mode 1 */
+      
       String sql = "CREATE TABLE IF NOT EXISTS syncnbt_nbtdata (" +
       		"id INT(10) PRIMARY KEY AUTO_INCREMENT, inventory_pos INT(10), parent_id INT(10), name VARCHAR(255), " +
       		"type VARCHAR(16), data BLOB, player_name TEXT" +
@@ -183,6 +200,16 @@ public class Database {
       statement = connection.prepareStatement(sql);
       statement.executeUpdate();
 
+      /* used by ProtocolLib mode 2 */
+      
+      sql = "CREATE TABLE IF NOT EXISTS syncnbt_json (" +
+          "player_name VARCHAR(255) PRIMARY KEY, json_data BLOB" +
+          ");";
+      statement = connection.prepareStatement(sql);
+      statement.executeUpdate();
+      
+      /* Settings and locks */
+      
       sql = "CREATE TABLE IF NOT EXISTS syncnbt_locks (" +
           "player_name VARCHAR(255) PRIMARY KEY, state SMALLINT" +
           ");";
@@ -194,7 +221,7 @@ public class Database {
               ");";
           statement = connection.prepareStatement(sql);
           statement.executeUpdate();
-
+          
       return true;
     } catch (SQLException e) {
       log.info(e.getMessage());
