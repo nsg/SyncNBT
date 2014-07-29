@@ -4,10 +4,9 @@ SyncNBT
 Sync some NBT data between Minecraft servers
 
 ## Install
-The plugin requires that you have PowerNBT installed, you can download it from this link:
-http://dev.bukkit.org/bukkit-plugins/powernbt/
-
-I'm only using the API from PowerNBT so you can disable the rest if you prefer. By default PowerNBT only allows OP:s to use it so it is safe.
+The plugin requires that you have PowerNBT and ProtocolLib installed, you can download them from this links:
+* http://dev.bukkit.org/bukkit-plugins/powernbt/
+* http://dev.bukkit.org/bukkit-plugins/protocollib/
 
 You can build it your self with Maven if you prefer, or get the latest snapshot from:
 http://control.seregon.se/job/SyncNBT/

@@ -1,3 +1,8 @@
+0.3
+  * A new "mode 2" based on ProtocolLib, I serializes the itemstacks and store them as JSON.
+  * Mode 2 will be set after a "mode 1" import.
+  * Various improvements.
+  * NOTE: mode 1 is considered deprecated and will be removed in next version.
 0.2c
   * Do not store empty tags (solves stacking problems)
 0.2b
