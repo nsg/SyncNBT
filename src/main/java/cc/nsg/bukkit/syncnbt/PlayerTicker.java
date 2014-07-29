@@ -18,6 +18,7 @@ public class PlayerTicker {
     setPlugin(plugin);
   }
 
+  // We found a new player to track
   public void startPlayerTicker() {
     getPlugin().getLogger().info("A new player called "+ name +" found, register player tracking.");
     
@@ -38,15 +39,25 @@ public class PlayerTicker {
         } else {
           String json = new JSONSerializer().toJSON(name);
           plugin.db.saveJSONData(name, json);
-          plugin.getLogger().info("Data saved to DB: " + json);
         }
       }
     }, 200L, 200L);
   }
   
-  public void stopPlayerTicker() {
+  // The player is gone
+  public void stopPlayerTicker(Boolean save) {
+    
+    if (save) {
+      String json = new JSONSerializer().toJSON(name);
+      plugin.db.saveJSONData(name, json);
+    }
+    
     getPlugin().getLogger().info("Player "+ name +" not found, unregister player tracking.");
     Bukkit.getScheduler().cancelTask(ticker_thread_id);
+  }
+  
+  public void stopPlayerTicker() {
+    stopPlayerTicker(false);
   }
     
   public String getName() {
