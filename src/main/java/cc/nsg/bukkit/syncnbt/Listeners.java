@@ -1,5 +1,6 @@
 package cc.nsg.bukkit.syncnbt;
 
+import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -51,6 +52,10 @@ public class Listeners implements Listener {
   @EventHandler
   public void playerLogin(PlayerJoinEvent event) {
     final Player player = event.getPlayer();
+    
+    /*
+     * Spawn a async thread and wait for the lock to clear
+     */
     new BukkitRunnable() {
       
       @Override
@@ -63,18 +68,29 @@ public class Listeners implements Listener {
               e.printStackTrace();
             }
           }
+
+          // Call a sync thread to modify the world
+          Bukkit.getScheduler().runTask(plugin, new Runnable() {
+            
+            @Override
+            public void run() {
+
+              if (plugin.db.getSetting(player.getName()) == 2) {
+                plugin.getLogger().info("Player " + player.getName() + " login, saving data with mode 2");
+                new PlayerTicker(plugin, player.getName()).startPlayerTicker();
+              } else {
+                plugin.getLogger().info("Player " + player.getName() + " login, saving data with mode 1");
+                plugin.nbt.restoreInventory(player);
+              }
+              player.sendMessage("Your items are restored!");
+              
+            }
+          });
           
-          if (plugin.db.getSetting(player.getName()) == 2) {
-            plugin.getLogger().info("Player " + player.getName() + " login, saving data with mode 2");
-            new PlayerTicker(plugin, player.getName()).startPlayerTicker();
-          } else {
-            plugin.getLogger().info("Player " + player.getName() + " login, saving data with mode 1");
-            plugin.nbt.restoreInventory(player);
-          }
-          player.sendMessage("Your items are restored!");
       }
 
-    }.runTaskLater(plugin, 40);
+    }.runTaskLaterAsynchronously(plugin, 20L);
+    
   }
     
 }
