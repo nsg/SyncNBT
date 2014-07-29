@@ -45,14 +45,14 @@ public class JSONSerializer {
       return;
     }
     
-    p.setExp((float)data.get("exp"));
-    p.setFoodLevel((int)data.get("foodlevel"));
-    p.setHealth((double)data.get("health"));
-    p.setRemainingAir((int)data.get("air"));
+    p.setExp(((Number)data.get("exp")).floatValue());
+    p.setFoodLevel(((Number)data.get("foodlevel")).intValue());
+    p.setHealth(((Number)data.get("health")).doubleValue()); // was already double, but that can change.
+    p.setRemainingAir(((Number)data.get("air")).intValue());
     p.getInventory().setContents(serializedList2ItemStack((List<String>)data.get("inventory")));
-    p.getInventory().setArmorContents(serializedList2ItemStack((List<String>)data.get("inventory")));
-    p.getEnderChest().setContents(serializedList2ItemStack((List<String>)data.get("inventory")));
-    p.sendMessage("Your items are restored from " + data.get("saved_date") + " CEST");
+    p.getInventory().setArmorContents(serializedList2ItemStack((List<String>)data.get("armor")));
+    p.getEnderChest().setContents(serializedList2ItemStack((List<String>)data.get("enderchest")));
+    p.sendMessage("Your items are restored from " + data.get("saved_date"));
   }
   
   @SuppressWarnings({ "rawtypes", "unchecked" })
