@@ -81,8 +81,9 @@ public class Listeners implements Listener {
               } else {
                 plugin.getLogger().info("Player " + player.getName() + " login, saving data with mode 1");
                 plugin.nbt.restoreInventory(player);
+                player.sendMessage("Your items are restored! New storage mode set.");
+                plugin.db.setSetting(player.getName(), 2);
               }
-              player.sendMessage("Your items are restored!");
               
             }
           });
