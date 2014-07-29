@@ -25,7 +25,6 @@ public class PlayerTicker {
     String json = plugin.db.getJSONData(name);
     if (json != null) {
       getPlugin().getLogger().info("Found data in database for player " + name + ", restoring data.");
-      plugin.getLogger().info(json);
       new JSONSerializer().restorePlayer(json);
     }
     
