@@ -20,6 +20,13 @@ public class PlayerTicker {
 
   public void startPlayerTicker() {
     getPlugin().getLogger().info("A new player called "+ name +" found, register player tracking.");
+    
+    String json = plugin.db.getJSONData(name);
+    if (json != null) {
+      getPlugin().getLogger().info("Found data in database for player " + name + ", restoring data.");
+      plugin.getLogger().info("" + new JSONSerializer().JSON2Map(json));
+    }
+    
     ticker_thread_id = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
       
       @Override
@@ -28,7 +35,9 @@ public class PlayerTicker {
         if (p == null) {
           stopPlayerTicker();
         } else {
-          p.sendMessage("Hello there, I'm ID " + ticker_thread_id);
+          String json = new JSONSerializer().toJSON(name);
+          plugin.db.saveJSONData(name, json);
+          plugin.getLogger().info("Data saved to DB: " + json);
         }
       }
     }, 200L, 200L);
@@ -38,7 +47,7 @@ public class PlayerTicker {
     getPlugin().getLogger().info("Player "+ name +" not found, unregister player tracking.");
     Bukkit.getScheduler().cancelTask(ticker_thread_id);
   }
-  
+    
   public String getName() {
     return name;
   }
