@@ -73,7 +73,7 @@ public class Database {
     openConnection();
 
     try {
-      String sql = "INSERT INTO syncnbt_json (player, json_data) VALUES(?,?) ON DUPLICATE KEY UPDATE json_data = ?";
+      String sql = "INSERT INTO syncnbt_json (player_name, json_data) VALUES(?,?) ON DUPLICATE KEY UPDATE json_data = ?";
       PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
       statement.setString(1, player);
       statement.setString(2, JSONData);
