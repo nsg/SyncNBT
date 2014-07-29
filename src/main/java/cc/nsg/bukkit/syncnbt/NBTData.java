@@ -20,6 +20,7 @@ import me.dpohvar.powernbt.nbt.NBTTagLong;
 import me.dpohvar.powernbt.nbt.NBTTagShort;
 import me.dpohvar.powernbt.nbt.NBTTagString;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -362,5 +363,37 @@ public class NBTData {
     
   }
 
+  public void saveInventory(Player player) {
+    // Player inventory (not armor)
+    PlayerInventory inventory = player.getInventory();
+    for (int slot = 0; slot < inventory.getSize(); slot++) {
+      ItemStack is = inventory.getItem(slot);
+      if (is == null) continue;
+      walkInventory(inventory, player, is, slot);
+    }
+
+    // Player armor
+    ItemStack is = player.getInventory().getHelmet();
+    if (is != null) {;
+      walkInventory(inventory, player, is, -100);
+      is.setType(Material.AIR); // clear helmet
+    }
+    is = player.getInventory().getChestplate();
+    if (is != null) {;
+      walkInventory(inventory, player, is, -101);
+      is.setType(Material.AIR); // clear chest
+    }
+    is = player.getInventory().getLeggings();
+    if (is != null) {;
+      walkInventory(inventory, player, is, -102);
+      is.setType(Material.AIR); // clear legs
+    }
+    is = player.getInventory().getBoots();
+    if (is != null) {;
+      walkInventory(inventory, player, is, -103);
+      is.setType(Material.AIR); // clear boots
+    }
+    inventory.clear();
+  }
   
 }
