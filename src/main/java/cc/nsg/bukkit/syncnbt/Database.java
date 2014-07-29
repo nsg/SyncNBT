@@ -83,6 +83,25 @@ public class Database {
       e1.printStackTrace();
     }
   }
+  
+  public String getJSONData(String player) {
+    openConnection();
+
+    String sql = "SELECT * FROM syncnbt_json WHERE player_name = ?";
+    try {
+      PreparedStatement statement = connection.prepareStatement(sql);
+      statement.setString(1, player);
+      ResultSet res = statement.executeQuery();
+      if (res.next()) {
+        return res.getString("json_data");
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    return null;
+  }
+
 
   public void setSetting(String player, int state) {
     openConnection();
