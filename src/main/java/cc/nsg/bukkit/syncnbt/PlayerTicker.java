@@ -40,7 +40,7 @@ public class PlayerTicker {
           plugin.db.saveJSONData(name, json);
         }
       }
-    }, 200L, 200L);
+    }, 1200L, 1200L);
   }
   
   // The player is gone
