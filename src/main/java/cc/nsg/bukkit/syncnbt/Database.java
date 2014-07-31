@@ -72,6 +72,7 @@ public class Database {
   public void saveJSONData(String player, String JSONData) {
     openConnection();
 
+    // Save stuff
     try {
       String sql = "INSERT INTO syncnbt_json (player_name, json_data) VALUES(?,?) ON DUPLICATE KEY UPDATE json_data = ?";
       PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -82,6 +83,18 @@ public class Database {
     } catch (SQLException e1) {
       e1.printStackTrace();
     }
+    
+    // Save a copy to _versions, this is used for restores
+    try {
+      String sql = "INSERT INTO syncnbt_json_versions (player_name, json_data) VALUES(?,?)";
+      PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+      statement.setString(1, player);
+      statement.setString(2, JSONData);
+      statement.execute();
+    } catch (SQLException e1) {
+      e1.printStackTrace();
+    }
+
   }
   
   public String getJSONData(String player) {
@@ -226,7 +239,13 @@ public class Database {
           ");";
       statement = connection.prepareStatement(sql);
       statement.executeUpdate();
-      
+
+      sql = "CREATE TABLE IF NOT EXISTS syncnbt_json_versions (" +
+          "id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, player_name VARCHAR(255), json_data BLOB, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
+          ");";
+      statement = connection.prepareStatement(sql);
+      statement.executeUpdate();
+
       /* Settings and locks */
       
       sql = "CREATE TABLE IF NOT EXISTS syncnbt_locks (" +
