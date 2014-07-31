@@ -1,3 +1,10 @@
+0.3b
+  * A heart Canister from Thinkers Construct increases the max health. These items are not moved
+    over and we ended up trying to restore 30 health of 20. This caused the import to fail with
+    a stacktrace. I added a check to solve this problem.
+  * I have also added a lot of try/catch so not the entire import failes.
+  * I have added a new database table that trac old reversions of the inventory. No nice interface
+    to restore from it (at the moment).
 0.3
   * A new "mode 2" based on ProtocolLib, I serializes the itemstacks and store them as JSON.
   * Mode 2 will be set after a "mode 1" import.

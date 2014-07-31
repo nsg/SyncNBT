@@ -6,7 +6,7 @@
 
     <groupId>cc.nsg.bukkit</groupId>
     <artifactId>SyncNBT</artifactId>
-    <version>0.3-SNAPSHOT</version>
+    <version>0.3b-SNAPSHOT</version>
 
     <repositories>
         <repository>
