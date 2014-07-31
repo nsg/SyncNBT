@@ -45,13 +45,61 @@ public class JSONSerializer {
       return;
     }
     
-    p.setExp(((Number)data.get("exp")).floatValue());
-    p.setFoodLevel(((Number)data.get("foodlevel")).intValue());
-    p.setHealth(((Number)data.get("health")).doubleValue()); // was already double, but that can change.
-    p.setRemainingAir(((Number)data.get("air")).intValue());
-    p.getInventory().setContents(serializedList2ItemStack((List<String>)data.get("inventory")));
-    p.getInventory().setArmorContents(serializedList2ItemStack((List<String>)data.get("armor")));
-    p.getEnderChest().setContents(serializedList2ItemStack((List<String>)data.get("enderchest")));
+    try {
+      p.setExp(((Number)data.get("exp")).floatValue());
+    } catch(Exception e) {
+      Bukkit.getLogger().severe("SyncNBT: We got a exception when we tried to restore exp");
+      e.printStackTrace();
+    }
+
+    try {
+      p.setFoodLevel(((Number)data.get("foodlevel")).intValue());
+    } catch(Exception e) {
+      Bukkit.getLogger().severe("SyncNBT: We got a exception when we tried to restore foodlevel");
+      e.printStackTrace();
+    }
+    
+    try {
+      if (((Number)data.get("health")).doubleValue() > p.getMaxHealth()) {
+        // Trying to restore a health value larger then max health, this is most likely due to some item that
+        // we failed to move over that increases health, like the Thinkers Constructs Read Heart Canister.
+        p.setHealth(p.getMaxHealth());
+      } else {
+        p.setHealth(((Number)data.get("health")).doubleValue()); // was already double, but that can change.
+      }
+    } catch(Exception e) {
+      Bukkit.getLogger().severe("SyncNBT: We got a exception when we tried to restore health");
+      e.printStackTrace();
+    }
+
+    try {
+      p.setRemainingAir(((Number)data.get("air")).intValue());
+    } catch(Exception e) {
+      Bukkit.getLogger().severe("SyncNBT: We got a exception when we tried to restore air");
+      e.printStackTrace();
+    }
+    
+    try {
+      p.getInventory().setContents(serializedList2ItemStack((List<String>)data.get("inventory")));
+    } catch(Exception e) {
+      Bukkit.getLogger().severe("SyncNBT: We got a exception when we tried to restore inventory");
+      e.printStackTrace();
+    }
+    
+    try {
+      p.getInventory().setArmorContents(serializedList2ItemStack((List<String>)data.get("armor")));
+    } catch(Exception e) {
+      Bukkit.getLogger().severe("SyncNBT: We got a exception when we tried to restore armor");
+      e.printStackTrace();
+    }
+
+    try {
+      p.getEnderChest().setContents(serializedList2ItemStack((List<String>)data.get("enderchest")));
+    } catch(Exception e) {
+      Bukkit.getLogger().severe("SyncNBT: We got a exception when we tried to restore enderchest");
+      e.printStackTrace();
+    }
+
     p.sendMessage("Your items are restored from " + data.get("saved_date"));
   }
   
